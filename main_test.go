@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/qadahss/supertest"
@@ -9,7 +8,13 @@ import (
 
 func TestSomeFunc(t *testing.T) {
 	t.Run("test1", func(t *testing.T) {
-		defer goleak.VerifyNone(t)
+		good, _ := goleak.Goroutines()
+		defer func() {
+			leaked, _ := goleak.Goroutines()
+			if len(good) != len(leaked) {
+				t.Fail()
+			}
+		}()
 		someFunc()
 
 	})
@@ -18,7 +23,6 @@ func TestSomeFunc(t *testing.T) {
 		good, _ := goleak.Goroutines()
 		defer func() {
 			leaked, _ := goleak.Goroutines()
-			fmt.Println("gtest")
 			if len(good) != len(leaked) {
 				t.Fail()
 			}
@@ -33,7 +37,6 @@ func TestSomeFunc(t *testing.T) {
 		good, _ := goleak.Goroutines()
 		defer func() {
 			leaked, _ := goleak.Goroutines()
-			fmt.Println("gtest")
 			if len(good) != len(leaked) {
 				t.Fail()
 			}
@@ -46,7 +49,6 @@ func TestSomeFunc(t *testing.T) {
 		good, _ := goleak.Goroutines()
 		defer func() {
 			leaked, _ := goleak.Goroutines()
-			fmt.Println("gtest")
 			if len(good) != len(leaked) {
 				t.Fail()
 			}
@@ -60,7 +62,6 @@ func TestSomeFunc(t *testing.T) {
 		good, _ := goleak.Goroutines()
 		defer func() {
 			leaked, _ := goleak.Goroutines()
-			fmt.Println("gtest")
 			if len(good) != len(leaked) {
 				t.Fail()
 			}
